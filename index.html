@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <title>Entrainement de La Casa</title>
 
   <!-- Icônes -->
@@ -11,79 +12,74 @@
 
   <!-- PWA -->
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#0b1c2d">
+  <meta name="theme-color" content="#0b1c2d" />
 
   <style>
-    body{
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
-      background:#0b1c2d;
-      color:#fff;
-      margin:0;
-      display:flex;
-      min-height:100vh;
-      align-items:center;
-      justify-content:center;
-      padding:24px;
-      text-align:center;
+    html, body { height: 100%; margin: 0; background: #0b1c2d; }
+    #frame { position: fixed; inset: 0; width: 100%; height: 100%; border: 0; }
+    #fallback {
+      position: fixed; inset: 0; display: none;
+      align-items: center; justify-content: center; padding: 20px;
+      color: #fff; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      text-align: center;
     }
-    .card{
-      max-width:520px;
-      width:100%;
-      background:rgba(255,255,255,0.06);
-      border:1px solid rgba(255,255,255,0.12);
-      border-radius:16px;
-      padding:20px;
+    .card {
+      max-width: 520px; width: 100%;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 16px;
+      padding: 18px;
     }
-    .btn{
-      display:inline-block;
-      margin-top:14px;
-      padding:12px 16px;
-      border-radius:12px;
-      background:#d4af37;
-      color:#0b1c2d;
-      font-weight:700;
-      text-decoration:none;
+    .btn {
+      display: inline-block; margin-top: 12px;
+      padding: 12px 16px; border-radius: 12px;
+      background: #d6b15e; color: #0b1c2d; font-weight: 800;
+      text-decoration: none;
     }
-    .muted{opacity:.8; font-size:14px; margin-top:10px; line-height:1.4;}
-    code{background:rgba(0,0,0,.25); padding:2px 6px; border-radius:8px;}
+    .muted { opacity: .85; margin-top: 8px; }
+    code { opacity: .9; }
   </style>
 </head>
-
 <body>
-  <div class="card">
-    <h2 style="margin:0 0 8px;">Entrainement de La Casa</h2>
-    <div class="muted">
-      ⚠️ Pour éviter le logo orange, ajoute d’abord cette page à l’écran d’accueil.<br>
-      Ensuite, ouvre l’app depuis l’icône.
-    </div>
 
-    <a class="btn" id="openApp" href="#">Ouvrir l’application</a>
+  <iframe id="frame" referrerpolicy="no-referrer"></iframe>
 
-    <div class="muted">
-      Sur Samsung Internet : menu ⋮ → <b>Ajouter à l’écran d’accueil</b><br>
-      (Assure-toi d’être sur <code>github.io</code>, pas <code>script.google.com</code>)
+  <div id="fallback">
+    <div class="card">
+      <h2 style="margin:0 0 6px;">Entrainement de La Casa</h2>
+      <div class="muted">
+        Si l’appli ne s’affiche pas ici (blocage iframe), ouvre-la dans le navigateur.
+      </div>
+      <a id="openBtn" class="btn" href="#" rel="noopener">Ouvrir l’application</a>
+      <div class="muted" style="margin-top:10px;">
+        Astuce : installe depuis <code>github.io</code> pour garder la bonne icône.
+      </div>
     </div>
   </div>
 
   <script>
-    const APP_URL = "https://script.google.com/macros/s/AKfycbxJLDEutOHmlmNLsjmQBNBCU9pvG-ZM93ilE_XoNf4MWF_PwniGiauf3Z3nf5LpS0ao/exec";
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbxJLDEutOHmlmNLsjmQBNBCU9pvG-ZM93ilE_XoNf4MWF_PwniGiauf3Z3nf5LpS0ao/exec";
 
-    // Standalone = ouvert depuis l'icône (PWA / raccourci)
-    const isStandalone =
-      window.matchMedia("(display-mode: standalone)").matches ||
-      window.matchMedia("(display-mode: fullscreen)").matches ||
-      window.navigator.standalone === true;
+    const frame = document.getElementById("frame");
+    const fallback = document.getElementById("fallback");
+    const openBtn = document.getElementById("openBtn");
 
-    // Si on est lancé depuis l'icône => on redirige automatiquement vers Apps Script
-    if (isStandalone) {
-      window.location.replace(APP_URL);
-    }
+    openBtn.href = GAS_URL;
 
-    // Sinon (navigateur) : pas de redirection auto (sinon logo orange)
-    document.getElementById("openApp").addEventListener("click", (e) => {
-      e.preventDefault();
-      window.location.href = APP_URL;
+    // charge l'app dans l'iframe
+    frame.src = GAS_URL;
+
+    // si l'iframe est bloquée, on affiche un fallback
+    const t = setTimeout(() => {
+      // si ça n'a pas chargé au bout de 3s, on montre le fallback
+      fallback.style.display = "flex";
+    }, 3000);
+
+    frame.addEventListener("load", () => {
+      clearTimeout(t);
+      fallback.style.display = "none";
     });
   </script>
+
 </body>
 </html>
