@@ -1,136 +1,282 @@
 <!doctype html>
 <html lang="fr">
 <head>
-  <base target="_top">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Entrainement de La Casa</title>
 
-  <!-- PWA -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#0b1c2d">
 
-  <!-- Icônes -->
   <link rel="icon" type="image/png" href="icon-512.png">
   <link rel="apple-touch-icon" href="icon-512.png">
 
   <style>
-    :root { color-scheme: dark; }
-    html, body {
-      margin:0;
-      height:100%;
-      background:#0b1c2d;
-      color:#fff;
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
-      -webkit-text-size-adjust: 100%;
-      text-size-adjust: 100%;
-      overflow-x:hidden;
-    }
-    * { box-sizing:border-box; }
+    :root{
+      --bg:#0b1c2d;
+      --card: rgba(255,255,255,.06);
+      --line: rgba(255,255,255,.12);
+      --txt: #ffffff;
+      --muted: rgba(255,255,255,.78);
 
-    .wrap {
+      --gold1:#f7d36b;
+      --gold2:#c89b2b;
+
+      --cyan:#00cec8;
+      --cyan2:#008e8a;
+    }
+
+    html, body {
+      margin:0; height:100%;
+      background: var(--bg);
+      color: var(--txt);
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial;
+      -webkit-text-size-adjust: 100%;
+      width:100%;
+      overflow-x:hidden;
+      touch-action: manipulation;
+    }
+
+    .wrap{
       min-height:100%;
       display:flex;
       align-items:center;
       justify-content:center;
-      padding:24px;
+      padding: 16px;
     }
-    .card {
-      width:min(560px, 100%);
-      background:rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.10);
-      border-radius:20px;
-      padding:22px;
+
+    .card{
+      width: min(560px, 100%);
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 14px;
+      box-shadow: 0 16px 40px rgba(0,0,0,.35);
+      max-height: 86vh; /* évite le scroll écran */
+      overflow: hidden;
+    }
+
+    .title{
+      margin: 2px 0 6px 0;
+      font-size: 30px;
+      line-height: 1.08;
+      letter-spacing: .2px;
       text-align:center;
     }
-    .btn {
-      display:inline-block;
-      margin-top:14px;
-      padding:14px 18px;
-      border-radius:14px;
-      background:#f7d36b;
-      color:#111;
-      font-weight:800;
+
+    .sub{
+      margin: 0 0 10px 0;
+      text-align:center;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      justify-content:center;
+      width:100%;
+      padding:10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(247,211,107,.35);
+      background: rgba(247,211,107,.10);
+      color: rgba(255,255,255,.92);
+      font-size: 13px;
+      line-height: 1.25;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+    }
+
+    .dot{
+      width:10px;height:10px;border-radius:99px;
+      background: var(--gold1);
+      box-shadow: 0 0 0 4px rgba(247,211,107,.18);
+      flex:0 0 auto;
+    }
+
+    .btns{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:10px;
+      margin-top: 6px;
+    }
+
+    .btn{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding: 14px 14px;
+      border-radius: 14px;
       text-decoration:none;
+      font-weight: 900;
+      letter-spacing:.2px;
+      border: none;
+      cursor: pointer;
       user-select:none;
       -webkit-tap-highlight-color: transparent;
     }
-    .muted {
-      opacity:.88;
-      margin-top:10px;
-      line-height:1.45;
-      font-size:16px;
+
+    .btn-primary{
+      background: linear-gradient(180deg, var(--gold1), var(--gold2));
+      color:#121212;
+      box-shadow: 0 12px 22px rgba(200,155,43,.22);
     }
-    hr {
-      border:none;
-      height:1px;
-      background:rgba(255,255,255,.10);
-      margin:16px 0;
+
+    .btn-secondary{
+      background: rgba(0,206,200,.12);
+      border: 1px solid rgba(0,206,200,.35);
+      color: rgba(255,255,255,.92);
     }
-    ul {
-      text-align:left;
-      max-width:460px;
-      margin:10px auto 0;
-      padding-left:18px;
-      line-height:1.4;
+
+    .btn small{
+      font-weight: 700;
+      opacity: .85;
+      display:block;
+      margin-top: 2px;
+      font-size: 12px;
+      letter-spacing: 0;
     }
-    li { margin:10px 0; }
-    .small {
+
+    .icon{
+      font-size: 18px;
+      line-height: 1;
+      opacity:.95;
+    }
+
+    details{
+      margin-top: 10px;
+      border-top: 1px solid rgba(255,255,255,.10);
+      padding-top: 10px;
+    }
+
+    summary{
+      list-style: none;
+      cursor: pointer;
+      font-weight: 800;
+      color: rgba(255,255,255,.92);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding: 8px 10px;
+      border-radius: 12px;
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.10);
+      user-select:none;
+    }
+    summary::-webkit-details-marker { display:none; }
+
+    .chev{
       opacity:.75;
-      font-size:14px;
-      margin-top:10px;
-      line-height:1.35;
+      font-weight:900;
+      transform: rotate(0deg);
+      transition: transform .15s ease;
     }
+    details[open] .chev{ transform: rotate(180deg); }
+
+    .help{
+      margin: 10px 4px 0 4px;
+      display:grid;
+      gap:8px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.25;
+    }
+
+    .row{
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+      padding: 10px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+    }
+
+    .pill{
+      flex:0 0 auto;
+      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-weight: 900;
+      color: rgba(255,255,255,.95);
+      letter-spacing:.2px;
+    }
+    .pill-samsung{ background: rgba(50,130,255,.18); border: 1px solid rgba(50,130,255,.35); }
+    .pill-chrome{ background: rgba(0,206,200,.12); border: 1px solid rgba(0,206,200,.35); }
+    .pill-iphone{ background: rgba(255,255,255,.10); border: 1px solid rgba(255,255,255,.18); }
+
+    .tiny{
+      margin-top: 10px;
+      text-align:center;
+      font-size: 12px;
+      color: rgba(255,255,255,.65);
+      line-height: 1.25;
+    }
+
+    b{ color: rgba(255,255,255,.95); }
   </style>
 </head>
+
 <body>
   <div class="wrap">
     <div class="card">
-      <h1 style="margin:0 0 8px 0;">Entrainement de La Casa</h1>
+      <div class="title">Entrainement de La Casa</div>
 
-      <div class="muted">
-        📱 Cette application fonctionne de deux façons : <b>installée</b> (recommandé) ou en <b>version Web</b>.
+      <div class="badge">
+        <span class="dot"></span>
+        <span><b>Conseillé :</b> installe l’app pour éviter le logo orange et avoir un affichage plus stable.</span>
       </div>
 
-      <hr>
+      <div class="btns">
+        <!-- Bouton install : on affiche les explications (et si le navigateur propose une install, le user le fera via le menu) -->
+        <button class="btn btn-primary" id="installBtn" type="button">
+          <span class="icon">⬇️</span>
+          <span>
+            Installer l’application
+            <small>Meilleure lisibilité + moins de bugs</small>
+          </span>
+        </button>
 
-      <div class="muted" style="margin-top:0;">
-        ✅ <b>Recommandé : installer l’application</b><br>
-        (meilleure lisibilité + moins de bugs)
+        <!-- Bouton web : ouvre directement l'Apps Script -->
+        <a class="btn btn-secondary" id="webBtn" href="#">
+          <span class="icon">🌐</span>
+          <span>
+            Ouvrir en version Web
+            <small>Sans installation</small>
+          </span>
+        </a>
       </div>
 
-      <ul>
-        <li>
-          <b>Samsung Internet</b><br>
-          Appuie sur <b>☰ (les 3 traits)</b> ➜ <b>Installer en tant qu’application Web</b>
-        </li>
-        <li>
-          <b>Chrome / Firefox / Edge</b><br>
-          Appuie sur <b>⋮ (3 points)</b> ➜ <b>Installer l’application</b>
-        </li>
-        <li>
-          <b>iPhone (Safari)</b><br>
-          Bouton <b>Partager</b> 📤 ➜ <b>Ajouter à l’écran d’accueil</b>
-        </li>
-      </ul>
+      <details id="howto">
+        <summary>
+          <span>Comment installer ?</span>
+          <span class="chev">▾</span>
+        </summary>
 
-      <div class="small">
-        Ensuite, ouvre l’app depuis l’icône ajoutée sur l’écran d’accueil.
-      </div>
+        <div class="help">
+          <div class="row">
+            <span class="pill pill-samsung">Samsung Internet</span>
+            <div>Menu <b>☰</b> (3 traits) → <b>Installer en tant qu’application Web</b></div>
+          </div>
 
-      <hr>
+          <div class="row">
+            <span class="pill pill-chrome">Chrome / Firefox / Edge</span>
+            <div>Menu <b>⋮</b> (3 points) → <b>Installer l’application</b> / <b>Ajouter à l’écran d’accueil</b></div>
+          </div>
 
-      <div class="muted" style="margin-top:0;">
-        🌐 <b>Sans installation</b><br>
-        Utilise la version Web directement :
-      </div>
+          <div class="row">
+            <span class="pill pill-iphone">iPhone (Safari)</span>
+            <div>Bouton <b>Partager</b> → <b>Sur l’écran d’accueil</b></div>
+          </div>
+        </div>
+      </details>
 
-      <a class="btn" id="openBtn" href="#">
-        👉 Ouvrir le site Web d’entraînement
-      </a>
-
-      <div class="small">
-        ⚠️ En mode Web, l’affichage peut varier selon le navigateur.
+      <div class="tiny">
+        Astuce : pour l’icône correcte, installe depuis <b>github.io</b> (pas <b>script.google.com</b>).
       </div>
     </div>
   </div>
@@ -138,19 +284,27 @@
   <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbxJLDEutOHmlmNLsjmQBNBCU9pvG-ZM93ilE_XoNf4MWF_PwniGiauf3Z3nf5LpS0ao/exec";
 
-    // Bouton : ouvre la version Web (Apps Script)
-    document.getElementById("openBtn").addEventListener("click", (e) => {
+    // Ouvrir en version Web
+    document.getElementById("webBtn").addEventListener("click", (e) => {
       e.preventDefault();
-      window.location.href = APP_URL;
+      location.href = APP_URL;
     });
 
-    // Si lancé en "app installée", on redirige direct vers l'app
+    // Installer : on ouvre directement les instructions (sans blabla)
+    document.getElementById("installBtn").addEventListener("click", () => {
+      const d = document.getElementById("howto");
+      d.open = true;
+      // petit scroll interne si besoin (mais la card est pensée pour éviter)
+      d.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    });
+
+    // Si lancé en "app installée", on redirige direct
     const isStandalone =
       window.matchMedia("(display-mode: standalone)").matches ||
       window.navigator.standalone === true;
 
     if (isStandalone) {
-      window.location.replace(APP_URL);
+      location.replace(APP_URL);
     }
   </script>
 </body>
