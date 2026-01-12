@@ -1,9 +1,8 @@
 {
   "name": "Entrainement de La Casa",
   "short_name": "La Casa",
-  "description": "Application d'entraînement de La Casa de Palet",
-  "start_url": "/",
-  "scope": "/",
+  "start_url": "/entrainement-la-casa/app.html",
+  "scope": "/entrainement-la-casa/",
   "display": "standalone",
   "background_color": "#0b1c2d",
   "theme_color": "#0b1c2d",
