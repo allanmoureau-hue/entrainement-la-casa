@@ -1,56 +1,54 @@
 <!doctype html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#0b1c2d" />
-
-  <link rel="manifest" href="./manifest.json" />
-  <link rel="icon" type="image/png" href="./icon-512.png" />
-  <link rel="apple-touch-icon" href="./icon-512.png" />
-
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Entrainement de La Casa</title>
 
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0b1c2d">
+
+  <link rel="icon" type="image/png" href="icon-512.png">
+  <link rel="apple-touch-icon" href="icon-512.png">
+
   <style>
-    /* Anti zoom / anti “grossissement texte” */
-    html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-    body { margin:0; font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial; background:#0b1c2d; color:#fff; }
-    .wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
-    .card{max-width:520px;width:100%;background:#182640;border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:22px;box-shadow:0 12px 28px rgba(0,0,0,.38);text-align:center}
-    h1{margin:0 0 10px;font-size:22px}
-    p{margin:10px 0;color:rgba(255,255,255,.85);font-size:16px;line-height:1.35}
-    .btn{display:inline-block;margin-top:12px;padding:14px 18px;border-radius:14px;background:#c89b2b;color:#0b1c2d;font-weight:800;text-decoration:none}
-    .muted{opacity:.75;font-size:14px;margin-top:10px}
-    code{background:rgba(0,0,0,.25);padding:2px 6px;border-radius:8px}
+    html, body { margin:0; height:100%; background:#0b1c2d; color:#fff; font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial; }
+    .wrap { min-height:100%; display:flex; align-items:center; justify-content:center; padding:24px; }
+    .card { width:min(560px, 100%); background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.10); border-radius:20px; padding:22px; text-align:center; }
+    .btn { display:inline-block; margin-top:14px; padding:14px 18px; border-radius:14px; background:#f7d36b; color:#111; font-weight:800; text-decoration:none; }
+    .muted { opacity:.85; margin-top:10px; line-height:1.35; }
   </style>
 </head>
 <body>
   <div class="wrap">
     <div class="card">
-      <h1>Entrainement de La Casa</h1>
-      <p>Pour avoir la bonne icône, ajoute d’abord cette page à l’écran d’accueil.</p>
+      <h1 style="margin:0 0 8px 0;">Entrainement de La Casa</h1>
+      <div class="muted">✅ Pour éviter le logo orange et les bugs d’affichage, installe l’app depuis ce lien.</div>
       <a class="btn" id="openBtn" href="#">Ouvrir l’application</a>
-      <div class="muted">Assure-toi d’être sur <code>github.io</code> (pas <code>script.google.com</code>)</div>
+      <div class="muted" style="margin-top:14px;">
+        Samsung Internet : menu ⋮ → <b>Ajouter à l’écran d’accueil</b><br>
+        (assure-toi d’être sur <b>github.io</b>, pas <b>script.google.com</b>)
+      </div>
     </div>
   </div>
 
   <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbxJLDEutOHmlmNLsjmQBNBCU9pvG-ZM93ilE_XoNf4MWF_PwniGiauf3Z3nf5LpS0ao/exec";
 
+    // bouton
+    document.getElementById("openBtn").onclick = (e) => {
+      e.preventDefault();
+      location.href = APP_URL;
+    };
+
+    // si lancé en "app installée", on redirige direct
     const isStandalone =
-      window.matchMedia('(display-mode: standalone)').matches ||
+      window.matchMedia("(display-mode: standalone)").matches ||
       window.navigator.standalone === true;
 
-    // ✅ Si l’app est lancée depuis l’icône installée → redirection directe (pas de page “install”)
     if (isStandalone) {
       location.replace(APP_URL);
     }
-
-    // ✅ Sinon (navigation normale) → bouton pour ouvrir
-    document.getElementById("openBtn").addEventListener("click", (e) => {
-      e.preventDefault();
-      location.href = APP_URL;
-    });
   </script>
 </body>
 </html>
