@@ -1,86 +1,78 @@
 <!doctype html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <title>Entrainement de La Casa</title>
 
-  <!-- Icônes -->
   <link rel="icon" type="image/png" href="icon-512.png">
   <link rel="apple-touch-icon" href="icon-512.png">
-
-  <!-- PWA -->
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#0b1c2d" />
+  <meta name="theme-color" content="#0b1c2d">
 
   <style>
-    html, body { height: 100%; margin: 0; background: #0b1c2d; }
-    #frame { position: fixed; inset: 0; width: 100%; height: 100%; border: 0; }
-    #fallback {
-      position: fixed; inset: 0; display: none;
-      align-items: center; justify-content: center; padding: 20px;
-      color: #fff; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
-      text-align: center;
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
+      background:#0b1c2d;
+      color:#fff;
+      display:flex;
+      min-height:100vh;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+      text-align:center;
     }
-    .card {
-      max-width: 520px; width: 100%;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.10);
-      border-radius: 16px;
-      padding: 18px;
+    .card{
+      max-width:520px;
+      width:100%;
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:18px;
+      padding:22px;
     }
-    .btn {
-      display: inline-block; margin-top: 12px;
-      padding: 12px 16px; border-radius: 12px;
-      background: #d6b15e; color: #0b1c2d; font-weight: 800;
-      text-decoration: none;
+    .btn{
+      display:inline-block;
+      margin-top:14px;
+      padding:12px 18px;
+      border-radius:14px;
+      background:#f7d36b;
+      color:#111;
+      font-weight:700;
+      text-decoration:none;
     }
-    .muted { opacity: .85; margin-top: 8px; }
-    code { opacity: .9; }
+    .muted{opacity:.8;margin-top:10px;font-size:14px}
   </style>
 </head>
+
 <body>
+  <div class="card">
+    <h2>Entrainement de La Casa</h2>
+    <p>✅ Pour éviter le logo orange et les bugs d’affichage, installe l’app depuis ce lien.</p>
 
-  <iframe id="frame" referrerpolicy="no-referrer"></iframe>
+    <a class="btn" id="open">Ouvrir l’application</a>
 
-  <div id="fallback">
-    <div class="card">
-      <h2 style="margin:0 0 6px;">Entrainement de La Casa</h2>
-      <div class="muted">
-        Si l’appli ne s’affiche pas ici (blocage iframe), ouvre-la dans le navigateur.
-      </div>
-      <a id="openBtn" class="btn" href="#" rel="noopener">Ouvrir l’application</a>
-      <div class="muted" style="margin-top:10px;">
-        Astuce : installe depuis <code>github.io</code> pour garder la bonne icône.
-      </div>
+    <div class="muted">
+      Samsung Internet : menu ⋮ → <b>Ajouter à l’écran d’accueil</b><br>
+      (il faut être sur <b>github.io</b>, pas script.google.com)
     </div>
   </div>
 
   <script>
     const GAS_URL = "https://script.google.com/macros/s/AKfycbxJLDEutOHmlmNLsjmQBNBCU9pvG-ZM93ilE_XoNf4MWF_PwniGiauf3Z3nf5LpS0ao/exec";
 
-    const frame = document.getElementById("frame");
-    const fallback = document.getElementById("fallback");
-    const openBtn = document.getElementById("openBtn");
+    const isStandalone =
+      window.matchMedia("(display-mode: standalone)").matches ||
+      window.matchMedia("(display-mode: fullscreen)").matches ||
+      window.navigator.standalone === true;
 
-    openBtn.href = GAS_URL;
+    // ✅ Redirection auto UNIQUEMENT si installé comme appli
+    if (isStandalone) {
+      location.replace(GAS_URL);
+    }
 
-    // charge l'app dans l'iframe
-    frame.src = GAS_URL;
-
-    // si l'iframe est bloquée, on affiche un fallback
-    const t = setTimeout(() => {
-      // si ça n'a pas chargé au bout de 3s, on montre le fallback
-      fallback.style.display = "flex";
-    }, 3000);
-
-    frame.addEventListener("load", () => {
-      clearTimeout(t);
-      fallback.style.display = "none";
-    });
+    // sinon, bouton pour ouvrir (les joueurs peuvent quand même accéder)
+    document.getElementById("open").href = GAS_URL;
   </script>
-
 </body>
 </html>
